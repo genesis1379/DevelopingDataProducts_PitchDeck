@@ -1,0 +1,7 @@
+var sets = [{label : 'Detailed', size : 60}, {label : 'Easy to Use', size: 60},
+                   {label : 'Visual', size : 60}],
+    overlaps = [{sets : [0,1], size:20},
+                       {sets : [0,2], size:20},
+                       {sets : [1,2], size:20},
+                       {sets : [0,1,2], size:0}
+                       ];
