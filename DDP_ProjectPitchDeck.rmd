@@ -43,14 +43,14 @@ output:
 ## What data are in the app? | Users can analyze 8617 foods based on 46 nutritional content indicators
 
 ```{r, message = FALSE, echo = FALSE}
-source("app/global.r")
+source("global.r")
 require(ggvis)
 require(dplyr)
 require(RSQLite)
 require(knitr)
 require(treemap)
 
-db <- src_sqlite("app/Food.sqlite")
+db <- src_sqlite("Food.sqlite")
 food <- tbl(db, "Food")
 df <- food %>%
   filter(
