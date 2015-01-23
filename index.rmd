@@ -1,0 +1,89 @@
+---
+title: What's in Your Food?
+subtitle: Developing Data Projects Project Slidify Pitch Deck
+author: Johannes Rebane
+date: January 22, 2015
+output: 
+  ioslides_presentation:
+    logo: ingredients1.png
+    self_contained: true
+    css: styles.css
+    smaller: true
+---
+
+## Overview of "What's in Your Food" | App is a tool for nutrition insight discovery and visualization 
+
+<div class="columns-2">
+<p>Ever wonder how much dietary fiber is in your burrito? </p>
+<p>Ever wonder what you should eat to maximize your protein intake while minimizing your fat intake?</P>
+<p><b>You can use this app to answer those questions and more.</b></p>
+
+<figure align= "center">
+<a href = "http:https://jrebane.shinyapps.io/DevelopingDataProducts_Project/"><img class = "imagedropshadow" src="screenshot_clipped.png" width = "350px" height = "auto" /></a><br>
+<figcaption>Screenshot of "What's in Your Food?" (Click screenshot to visit)</figcaption>
+</figure>
+</div>
+
+## How does it add value? | "What's in Your Food?" provides insights through interactive visualization
+
+<div class="columns-2">
+<iframe src="venn.html"></iframe>
+
+#### Detailed nutrition facts
+- Data are from the <a href = "http://ndb.nal.usda.gov/ndb/">USDA's Nutrition Database</a> which, while not visually friendly, is the go-to source for accurate and detailed nutrition data
+
+#### Easy to use
+- Users can navigate foods with an interactive graph or table
+- Filters and search help users find subsets of food easily and creatively
+
+#### Visual
+- Users can plot foods by nutrient values and food groups and quickly visualize their findings
+- Dynamic tooltips make weaving through the data much easier
+
+## What data are in the app? | Users can analyze 8617 foods based on 46 nutritional content indicators
+
+```{r, message = FALSE, echo = FALSE}
+source("global.r")
+require(ggvis)
+require(dplyr)
+require(RSQLite)
+require(knitr)
+require(treemap)
+
+db <- src_sqlite("Food.sqlite")
+food <- tbl(db, "Food")
+df <- food %>%
+  filter(
+    Energy >= 0,
+    Energy <= 1000)
+df <- as.data.frame(df)
+```
+
+```{r, fig.height=3, fig.width = 7.5, fig.align='center'}
+food_count <- as.data.frame(table(df$FoodGroup))
+treemap(food_count, "Var1", "Freq", fontface.labels = "plain", 
+        title = "Composition of Nutrition Data Frame for App")
+```
+
+## Further applications and development | This app can be further improved upon for added functionality
+
+<div class="columns-2">
+<div class = "heading"><p>Who can use this?</p></div>
+<br>
+
+- Dieticians and nutritionists
+- Chefs
+- The USDA and NDA (and other government organizations)
+- Researchers and food studies students
+- Anyone trying to maximize or minimize intake of a specific nutrient
+- The curious and bored!
+
+<br><br>
+
+<div class = "heading"><p>Future features</p></div>
+<br>
+
+- Food recommendation function which takes an input of a set of objectives and provides a list of foods that meet those objectives 
+- <b>Example:</b> <i>Input objective to minimize sodium while maximizing iron intake, output is a list of foods with the highest iron to sodium ratio</i>
+- Ability to click on an ingredient on the chart and display the ingredient makeup in a separate chart beside it
+</div>
